@@ -6,7 +6,7 @@
 // Sets default values
 APlayerChar::APlayerChar()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Setting the CameraComp
@@ -17,6 +17,11 @@ APlayerChar::APlayerChar()
 
 	//Control Camera
 	PlayerCamComp->bUsePawnControlRotation = true;
+
+	ResourcesArray.SetNum(3);
+	ResourcesNameArray.Add(TEXT("Wood"));
+	ResourcesNameArray.Add(TEXT("Stone"));
+	ResourcesNameArray.Add(TEXT("Berry"));
 }
 
 // Called when the game starts or when spawned
@@ -25,9 +30,9 @@ void APlayerChar::BeginPlay()
 	Super::BeginPlay();
 	//Setting timer Stats
 	FTimerHandle StatsTimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(StatsTimerHandle, this, & APlayerChar::DecreaseStats, 2.0f, true);
+	GetWorld()->GetTimerManager().SetTimer(StatsTimerHandle, this, &APlayerChar::DecreaseStats, 2.0f, true);
 
-	
+
 }
 
 // Called every frame
@@ -43,7 +48,7 @@ void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	//Axis Value Inputs Move
-	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerChar:: MoveForward);
+	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerChar::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerChar::MoveRight);
 	//Axis Value Inputs Look
 	PlayerInputComponent->BindAxis("LookUp", this, &APlayerChar::AddControllerPitchInput);
@@ -96,28 +101,35 @@ void APlayerChar::FindObject()
 	{
 		AResource_M* HitResource = Cast<AResource_M>(HitResult.GetActor());
 
-		if (HitResource)
+		if (Stamina > 5.0F)
 		{
-			FString hitName = HitResource->resourceName;
-			int resourceValue = HitResource->resourceAmount;
-
-			HitResource->totalResource = HitResource->totalResource - resourceValue;
-
-			if (HitResource->totalResource >resourceValue)
+			if (HitResource)
 			{
-				GiveResource(resourceValue, hitName);
+				FString hitName = HitResource->resourceName;
+				int resourceValue = HitResource->resourceAmount;
 
-				check(GEngine != nullptr);
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
+				HitResource->totalResource = HitResource->totalResource - resourceValue;
+
+				if (HitResource->totalResource > resourceValue)
+				{
+					GiveResource(resourceValue, hitName);
+
+					check(GEngine != nullptr);
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
+
+				   UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
+
+					SetStamina(-5.0f);
+				}
+
+				else
+				{
+					HitResource->Destroy();
+					check(GEngine != nullptr);
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
+				}
+
 			}
-
-			else
-			{
-				HitResource->Destroy();
-				check(GEngine != nullptr);
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
-			}
-
 		}
 	}
 }

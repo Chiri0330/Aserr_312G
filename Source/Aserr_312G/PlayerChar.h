@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Resource_M.h"
+#include "Kismet/GamePlayStatics.h"
 #include "PlayerChar.generated.h"
 
 UCLASS()
@@ -21,7 +22,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -30,64 +31,68 @@ public:
 
 	//Functions
 	UFUNCTION()
-			void MoveForward(float axisValue);
+	void MoveForward(float axisValue);
 
 
 	UFUNCTION()
-			void MoveRight(float axisValue);
+	void MoveRight(float axisValue);
 
 	UFUNCTION()
-			void StartJump();
+	void StartJump();
 
 	UFUNCTION()
-			void StopJump();
+	void StopJump();
 
 	UFUNCTION()
-			void FindObject();
+	void FindObject();
 
-//Properties 
+	//Properties 
 	UPROPERTY(VisibleAnywhere)
-	        UCameraComponent* PlayerCamComp;
+	UCameraComponent* PlayerCamComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
-			float Health = 100.f;
+	float Health = 100.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
-			float Hunger = 100.f;
+	float Hunger = 100.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
-			float Stamina = 100.f;
+	float Stamina = 100.f;
 
-//ResourcesArray
+	//ResourcesArray
 	UPROPERTY(EditAnywhere, Category = "Resources")
-			int Wood;
-
-	UPROPERTY(EditAnywhere, Category = "Resources")
-			int Stone;
+	int Wood;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-			int Berry;
+	int Stone;
+
+	UPROPERTY(EditAnywhere, Category = "Resources")
+	int Berry;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resources")
-			TArray<int> ResourcesArray;
+	TArray<int> ResourcesArray;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-			TArray<FString> ResourcesNameArray;
+	TArray<FString> ResourcesNameArray;
 
-//Functions Set Health, Hunger abd Stamina
-	UFUNCTION(BlueprintCallable)
-			void SetHealth(float amount);
+	//MaterialInterfiere
+	UPROPERTY(EditAnywhere, Category = "HitMarker")
+	UMaterialInterface* hitDecal;
 
+	//Functions Set Health, Hunger and Stamina
 	UFUNCTION(BlueprintCallable)
-			void SetHunger(float amount);
-
-	UFUNCTION(BlueprintCallable)
-			void SetStamina(float amount);
+	void SetHealth(float amount);
 
 	UFUNCTION(BlueprintCallable)
-			void DecreaseStats();
+	void SetHunger(float amount);
 
-//Resources Amount
+	UFUNCTION(BlueprintCallable)
+	void SetStamina(float amount);
+
+	UFUNCTION(BlueprintCallable)
+	void DecreaseStats();
+
+	//Resources Amount
 	UFUNCTION()
 	void GiveResource(float amount, FString resourceType);
 };

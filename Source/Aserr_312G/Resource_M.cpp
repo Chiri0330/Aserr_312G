@@ -6,7 +6,7 @@
 // Sets default values
 AResource_M::AResource_M()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Creating and Attaching to Mesh the ResourcesName
@@ -26,7 +26,7 @@ void AResource_M::BeginPlay()
 	tempText = tempText.FromString(resourceName);
 	ResourceNameTxt->SetText(tempText);
 
-	
+
 }
 
 // Called every frame
@@ -35,4 +35,6 @@ void AResource_M::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+
 

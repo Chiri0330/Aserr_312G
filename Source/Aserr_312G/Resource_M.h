@@ -12,8 +12,8 @@ UCLASS()
 class ASERR_312G_API AResource_M : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AResource_M();
 
@@ -21,30 +21,29 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	//Resource Set Up Wood Amount and Aotal 
 	UPROPERTY(EditAnywhere)
-			FString resourceName = "Wood";
+	FString resourceName = "Wood";
 
 	UPROPERTY(EditAnywhere)
-			int resourceAmount = 5;
+	int resourceAmount = 5;
 
 	UPROPERTY(EditAnywhere)
-			int totalResource = 100;
+	int totalResource = 100;
 
 	UPROPERTY()
-			FText tempText;
+	FText tempText;
 
 	UPROPERTY(EditAnywhere)
-			UTextRenderComponent* ResourceNameTxt;
+	UTextRenderComponent* ResourceNameTxt;
 
 	UPROPERTY(EditAnywhere)
-			UStaticMeshComponent* Mesh;
+	UStaticMeshComponent* Mesh;
 
-	UPROPERTY(EditAnywhere)
-			UStaticMesh* resourceMesh;
 
 };
+
