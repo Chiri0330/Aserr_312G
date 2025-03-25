@@ -57,6 +57,9 @@ void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerChar::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerChar::StopJump);
 
+	//  Bind Interact (Left Mouse Button) to FindObject
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerChar::FindObject);
+
 
 }
 //MoveForward Input
@@ -110,7 +113,7 @@ void APlayerChar::FindObject()
 
 				HitResource->totalResource = HitResource->totalResource - resourceValue;
 
-				if (HitResource->totalResource > resourceValue)
+				if (HitResource->totalResource >= resourceValue)
 				{
 					GiveResource(resourceValue, hitName);
 
