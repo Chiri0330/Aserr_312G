@@ -113,16 +113,12 @@ void APlayerChar::FindObject()
 
 				HitResource->totalResource = HitResource->totalResource - resourceValue;
 
-				if (HitResource->totalResource >= resourceValue)
+				if (HitResource->totalResource > resourceValue)
 				{
 					GiveResource(resourceValue, hitName);
 
 					check(GEngine != nullptr);
 					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
-
-				   UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
-
-					SetStamina(-5.0f);
 				}
 
 				else
@@ -132,6 +128,9 @@ void APlayerChar::FindObject()
 					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
 				}
 
+				UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
+
+				SetStamina(-5.0f);
 			}
 		}
 	}
@@ -172,7 +171,7 @@ void APlayerChar::DecreaseStats()
 		SetHunger(-1.0f);
 	}
 
-	SetStamina(-10.0f);
+	SetStamina(10.0f);
 
 	if (Hunger <= 0)
 	{
@@ -197,5 +196,6 @@ void APlayerChar::GiveResource(float amount, FString resourceType)
 		ResourcesArray[2] = ResourcesArray[2] + amount;
 	}
 }
+
 
 
